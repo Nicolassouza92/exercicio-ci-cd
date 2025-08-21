@@ -64,3 +64,30 @@ describe("DELETE /todo/:id", () => {
     ]);
   });
 });
+
+// Teste I: Cenário de erro em POST /todo quando a descrição não é fornecida
+describe("POST /todo", () => {
+  it("should return a 400 error if description is not provided", async () => {
+    const response = await request
+      .post("/todo")
+      .send({ tarefa: "" }); // Enviando uma tarefa vazia
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      erro: "formato de requisição incorreto :(",
+    });
+  });
+});
+
+// Teste II: Cenário de erro em DELETE /todo/:id quando o ID não existe
+describe("DELETE /todo/:id", () => {
+  it("should return a 404 error if task id does not exist", async () => {
+    // Garantindo que o banco está vazio
+    const response = await request.delete("/todo/999"); // Usando um ID que não existe
+
+    expect(response.status).toBe(404);
+    expect(response.body).toEqual({
+      mensagem: "ID não encontrado!",
+    });
+  });
+});
