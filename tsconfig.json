@@ -4,12 +4,12 @@
     "module": "commonjs",
     "lib": ["ES2018"],
     "outDir": "./dist",
-    "rootDir": "./src",
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "sourceMap": true,
-    "declaration": false
+    "declaration": false,
+    "types": ["jest", "node"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "__tests__/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }
