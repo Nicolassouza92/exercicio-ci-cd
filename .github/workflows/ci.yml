@@ -1,0 +1,45 @@
+name: CI Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Baixa o código do repositório para a máquina do workflow
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Instala o Node.js na máquina
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # Usando uma versão LTS do Node
+
+      # Step 3: Instala as dependências do projeto
+      - name: Install dependencies
+        run: npm ci # 'npm ci' é mais rápido e seguro para automação
+
+      # Step 4: Roda o script de build do TypeScript
+      - name: Build project
+        run: npm run build
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # Os jobs são independentes, então é preciso repetir os passos de setup
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Step final: Roda o script de teste
+      - name: Run tests
+        run: npm test
