@@ -3,7 +3,7 @@ import Express from "express";
 import path from "path";
 import { tarefas } from "../repositories.ts/tasks";
 
-const router = Router();
+const router: number = Router();
 router.use(Express.json());
 router.use(Express.urlencoded({ extended: true }));
 
